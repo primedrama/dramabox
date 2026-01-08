@@ -8,11 +8,13 @@
     _0xk.split("").reverse().join("")
   );
 })();
+/* =============================== */
 
 const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_URL = 'https://image.tmdb.org/t/p/original';
 let currentItem;
 
+/* ===== FETCH FUNCTIONS ===== */
 async function fetchTrending(type) {
   const res = await fetch(`${BASE_URL}/trending/${type}/week?api_key=${API_KEY}`);
   const data = await res.json();
@@ -34,6 +36,7 @@ async function fetchTrendingAnime() {
   return allResults;
 }
 
+/* ===== UI RENDER ===== */
 function displayBanner(item) {
   document.getElementById('banner').style.backgroundImage =
     `url(${IMG_URL}${item.backdrop_path})`;
@@ -54,6 +57,7 @@ function displayList(items, containerId) {
   });
 }
 
+/* ===== MODAL ===== */
 function showDetails(item) {
   currentItem = item;
   document.getElementById('modal-title').textContent =
@@ -68,17 +72,30 @@ function showDetails(item) {
   document.getElementById('modal').style.display = 'flex';
 }
 
+/* ===== ZXCSTREAM PLAYER ===== */
 function changeServer() {
   const server = document.getElementById('server').value;
-  const type = currentItem.media_type === "movie" ? "movie" : "tv";
+  const isMovie = currentItem.media_type === "movie";
+
+  const tmdbId = currentItem.id;
+  const season = 1;
+  const episode = 1;
+  const language = "en";
+
   let embedURL = "";
 
-  if (server === "vidsrc.cc") {
-    embedURL = `https://vidsrc.cc/v2/embed/${type}/${currentItem.id}`;
-  } else if (server === "vidsrc.me") {
-    embedURL = `https://vidsrc.net/embed/${type}/?tmdb=${currentItem.id}`;
-  } else if (server === "player.videasy.net") {
-    embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
+  if (isMovie) {
+    if (server === "player") {
+      embedURL = `https://zxcstream.xyz/player/movie/${tmdbId}/${language}?autoplay=false&back=true&server=0`;
+    } else if (server === "embed") {
+      embedURL = `https://zxcstream.xyz/embed/movie/${tmdbId}`;
+    }
+  } else {
+    if (server === "player") {
+      embedURL = `https://zxcstream.xyz/player/tv/${tmdbId}/${season}/${episode}/${language}?autoplay=false&back=true&server=0`;
+    } else if (server === "embed") {
+      embedURL = `https://zxcstream.xyz/embed/tv/${tmdbId}/${season}/${episode}`;
+    }
   }
 
   document.getElementById('modal-video').src = embedURL;
@@ -89,6 +106,7 @@ function closeModal() {
   document.getElementById('modal-video').src = '';
 }
 
+/* ===== SEARCH ===== */
 function openSearchModal() {
   document.getElementById('search-modal').style.display = 'flex';
   document.getElementById('search-input').focus();
@@ -126,6 +144,7 @@ async function searchTMDB() {
   });
 }
 
+/* ===== INIT ===== */
 async function init() {
   const movies = await fetchTrending('movie');
   const tvShows = await fetchTrending('tv');
@@ -138,3 +157,5 @@ async function init() {
 }
 
 init();
+
+
