@@ -4,48 +4,79 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>My Website</title>
 
+  <!-- Styles -->
   <link rel="stylesheet" href="css/home.css">
   <link rel="preload" href="css/home.css" as="style">
   <link rel="preload" href="js/home.js" as="script">
+
+  <!-- PWA -->
   <link rel="manifest" href="manifest.json">
+
+  <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Script -->
   <script defer src="js/home.js"></script>
 </head>
 
 <body>
-  <div class="navbar">
-    <img src="https://i.ibb.co/W4TZSVj4/logo.png" alt="Website Logo" />
-    <div class="nav-links">
+
+  <!-- ================= HEADER / NAVBAR ================= -->
+  <header class="navbar">
+    <img
+      src="https://i.ibb.co/W4TZSVj4/logo.png"
+      alt="Website Logo"
+      aria-label="Homepage Logo"
+    />
+
+    <nav class="nav-links">
       <a href="index.html">Home</a>
-      <input type="text" class="search-bar" placeholder="Search..." onfocus="openSearchModal()" />
+      <input
+        type="text"
+        class="search-bar"
+        placeholder="Search movies or shows..."
+        aria-label="Search"
+        onfocus="openSearchModal()"
+      />
+    </nav>
+  </header>
+
+  <!-- ================= HERO / BANNER ================= -->
+  <section class="banner" id="banner">
+    <div class="banner-overlay">
+      <h1 id="banner-title"></h1>
     </div>
-  </div>
+  </section>
 
-  <div class="banner" id="banner">
-    <h1 id="banner-title"></h1>
-  </div>
+  <!-- ================= MAIN CONTENT ================= -->
+  <main>
 
-  <div class="row">
-    <h2>Trending Movies</h2>
-    <div class="list" id="movies-list"></div>
-  </div>
+    <section class="row">
+      <h2>Trending Movies</h2>
+      <div class="list" id="movies-list" aria-label="Trending Movies"></div>
+    </section>
 
-  <div class="row">
-    <h2>Trending TV Shows</h2>
-    <div class="list" id="tvshows-list"></div>
-  </div>
+    <section class="row">
+      <h2>Trending TV Shows</h2>
+      <div class="list" id="tvshows-list" aria-label="Trending TV Shows"></div>
+    </section>
 
-  <div class="row">
-    <h2>Trending Anime</h2>
-    <div class="list" id="anime-list"></div>
-  </div>
+    <section class="row">
+      <h2>Trending Anime</h2>
+      <div class="list" id="anime-list" aria-label="Trending Anime"></div>
+    </section>
 
-  <div class="modal" id="modal">
+  </main>
+
+  <!-- ================= MODAL ================= -->
+  <div class="modal" id="modal" aria-hidden="true">
     <div class="modal-content">
-      <span class="close" onclick="closeModal()" style="color: red;">&times;</span>
 
+      <button class="close" onclick="closeModal()" aria-label="Close modal">&times;</button>
+
+      <!-- Movie Info -->
       <div class="modal-body">
-        <img id="modal-image" src="" alt="" />
+        <img id="modal-image" src="" alt="Poster" />
         <div class="modal-text">
           <h2 id="modal-title"></h2>
           <div class="stars" id="modal-rating"></div>
@@ -53,7 +84,7 @@
         </div>
       </div>
 
-      <!-- ✅ UPDATED SERVER SELECTOR -->
+      <!-- Server Selector -->
       <div class="server-selector">
         <label for="server">Change Server:</label>
         <select id="server" onchange="changeServer()">
@@ -62,26 +93,34 @@
         </select>
       </div>
 
-      <iframe
-        id="modal-video"
-        width="100%"
-        height="315"
-        frameborder="0"
-        allowfullscreen>
-      </iframe>
+      <!-- Player -->
+      <div class="video-wrapper">
+        <iframe
+          id="modal-video"
+          title="Video Player"
+          allowfullscreen
+        ></iframe>
+      </div>
+
     </div>
   </div>
 
-  <div class="search-modal" id="search-modal">
-    <span class="close" onclick="closeSearchModal()" style="color: red;">&times;</span>
+  <!-- ================= SEARCH MODAL ================= -->
+  <div class="search-modal" id="search-modal" aria-hidden="true">
+    <button class="close" onclick="closeSearchModal()" aria-label="Close search">&times;</button>
+
     <input
       type="text"
       id="search-input"
       placeholder="Search for a movie or show..."
-      oninput="searchTMDB()" />
+      aria-label="Search input"
+      oninput="searchTMDB()"
+    />
+
     <div class="results" id="search-results"></div>
   </div>
 
+  <!-- ================= FOOTER ================= -->
   <footer class="footer">
     <div class="footer-content">
       <p>&copy; 2025 My Website. All rights reserved.</p>
@@ -92,5 +131,6 @@
       </div>
     </div>
   </footer>
+
 </body>
 </html>
