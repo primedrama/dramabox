@@ -1,5 +1,3 @@
-<script>
-
 (function () {
   const _0xk = "MWJkMjhkZWU5NTMzYTBiMWVkMjkyNTQ5ZDgyNmY4OGI="
     .split("")
@@ -10,7 +8,6 @@
     _0xk.split("").reverse().join("")
   );
 })();
-/* ==================================================== */
 
 const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_URL = 'https://image.tmdb.org/t/p/original';
@@ -48,6 +45,7 @@ function displayList(items, containerId) {
   const container = document.getElementById(containerId);
   container.innerHTML = '';
   items.forEach(item => {
+    if (!item.poster_path) return;
     const img = document.createElement('img');
     img.src = `${IMG_URL}${item.poster_path}`;
     img.alt = item.title || item.name;
@@ -140,4 +138,3 @@ async function init() {
 }
 
 init();
-</script>
