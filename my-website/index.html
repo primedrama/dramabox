@@ -1,4 +1,3 @@
-
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -44,6 +43,7 @@
   <div class="modal" id="modal">
     <div class="modal-content">
       <span class="close" onclick="closeModal()" style="color: red;">&times;</span>
+
       <div class="modal-body">
         <img id="modal-image" src="" alt="" />
         <div class="modal-text">
@@ -53,22 +53,32 @@
         </div>
       </div>
 
+      <!-- ✅ UPDATED SERVER SELECTOR -->
       <div class="server-selector">
         <label for="server">Change Server:</label>
         <select id="server" onchange="changeServer()">
-          <option value="vidsrc.cc">Vidsrc.cc</option>
-          <option value="vidsrc.me">Vidsrc.me</option>
-          <option value="player.videasy.net">Player.Videasy.net</option>
+          <option value="player">ZXCStream Player</option>
+          <option value="embed">ZXCStream Embed</option>
         </select>
       </div>
 
-      <iframe id="modal-video" width="100%" height="315" frameborder="0" allowfullscreen></iframe>
+      <iframe
+        id="modal-video"
+        width="100%"
+        height="315"
+        frameborder="0"
+        allowfullscreen>
+      </iframe>
     </div>
   </div>
 
   <div class="search-modal" id="search-modal">
     <span class="close" onclick="closeSearchModal()" style="color: red;">&times;</span>
-    <input type="text" id="search-input" placeholder="Search for a movie or show..." oninput="searchTMDB()" />
+    <input
+      type="text"
+      id="search-input"
+      placeholder="Search for a movie or show..."
+      oninput="searchTMDB()" />
     <div class="results" id="search-results"></div>
   </div>
 
