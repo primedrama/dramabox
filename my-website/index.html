@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Website</title>
+  <title>Drama Box</title>
 
   <!-- Styles -->
   <link rel="stylesheet" href="css/home.css">
@@ -21,12 +21,11 @@
 
 <body>
 
-  <!-- ================= HEADER / NAVBAR ================= -->
+  <!-- ================= HEADER ================= -->
   <header class="navbar">
     <img
       src="https://i.ibb.co/W4TZSVj4/logo.png"
       alt="Website Logo"
-      aria-label="Homepage Logo"
     />
 
     <nav class="nav-links">
@@ -35,46 +34,43 @@
         type="text"
         class="search-bar"
         placeholder="Search movies or shows..."
-        aria-label="Search"
         onfocus="openSearchModal()"
       />
     </nav>
   </header>
 
-  <!-- ================= HERO / BANNER ================= -->
+  <!-- ================= BANNER ================= -->
   <section class="banner" id="banner">
     <div class="banner-overlay">
       <h1 id="banner-title"></h1>
     </div>
   </section>
 
-  <!-- ================= MAIN CONTENT ================= -->
+  <!-- ================= CONTENT ================= -->
   <main>
-
     <section class="row">
       <h2>Trending Movies</h2>
-      <div class="list" id="movies-list" aria-label="Trending Movies"></div>
+      <div class="list" id="movies-list"></div>
     </section>
 
     <section class="row">
       <h2>Trending TV Shows</h2>
-      <div class="list" id="tvshows-list" aria-label="Trending TV Shows"></div>
+      <div class="list" id="tvshows-list"></div>
     </section>
 
     <section class="row">
       <h2>Trending Anime</h2>
-      <div class="list" id="anime-list" aria-label="Trending Anime"></div>
+      <div class="list" id="anime-list"></div>
     </section>
-
   </main>
 
   <!-- ================= MODAL ================= -->
-  <div class="modal" id="modal" aria-hidden="true">
+  <div class="modal" id="modal">
     <div class="modal-content">
 
-      <button class="close" onclick="closeModal()" aria-label="Close modal">&times;</button>
+      <button class="close" onclick="closeModal()">&times;</button>
 
-      <!-- Movie Info -->
+      <!-- INFO -->
       <div class="modal-body">
         <img id="modal-image" src="" alt="Poster" />
         <div class="modal-text">
@@ -84,16 +80,16 @@
         </div>
       </div>
 
-      <!-- Server Selector -->
+      <!-- SERVER SELECTOR (HIDDEN PLAYER NAME) -->
       <div class="server-selector">
-        <label for="server">Change Server:</label>
+        <label for="server">Server:</label>
         <select id="server" onchange="changeServer()">
-          <option value="player">ZXCStream Player</option>
-          <option value="embed">ZXCStream Embed</option>
+          <option value="player">Server 1</option>
+          <option value="embed">Server 2</option>
         </select>
       </div>
 
-      <!-- Player -->
+      <!-- BIG VIDEO PLAYER -->
       <div class="video-wrapper">
         <iframe
           id="modal-video"
@@ -105,15 +101,14 @@
     </div>
   </div>
 
-  <!-- ================= SEARCH MODAL ================= -->
-  <div class="search-modal" id="search-modal" aria-hidden="true">
-    <button class="close" onclick="closeSearchModal()" aria-label="Close search">&times;</button>
+  <!-- ================= SEARCH ================= -->
+  <div class="search-modal" id="search-modal">
+    <button class="close" onclick="closeSearchModal()">&times;</button>
 
     <input
       type="text"
       id="search-input"
       placeholder="Search for a movie or show..."
-      aria-label="Search input"
       oninput="searchTMDB()"
     />
 
@@ -123,7 +118,7 @@
   <!-- ================= FOOTER ================= -->
   <footer class="footer">
     <div class="footer-content">
-      <p>&copy; 2025 My Website. All rights reserved.</p>
+      <p>&copy; 2025 Drama Box. All rights reserved.</p>
       <div class="footer-links">
         <a href="#">Disclaimer</a>
         <a href="#">About Us</a>
