@@ -10,6 +10,15 @@ const IMG_URL = "https://image.tmdb.org/t/p/original";
 
 let currentItem = null;
 
+/* ================= FORCE SERVER NAME ================= */
+document.addEventListener("DOMContentLoaded", () => {
+  const server = document.getElementById("server");
+  if (server && server.options.length >= 2) {
+    server.options[0].text = "Server 1";
+    server.options[1].text = "Server 2";
+  }
+});
+
 /* ================= FETCH ================= */
 async function fetchJSON(url) {
   try {
@@ -114,7 +123,7 @@ function changeServer() {
 
   const server = document.getElementById("server").value;
 
-  const isMovie = !!currentItem.title; // FIXED
+  const isMovie = !!currentItem.title;
   const tmdbId = currentItem.id;
 
   const season = 1;
