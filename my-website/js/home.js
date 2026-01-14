@@ -4,10 +4,12 @@
   window.API_KEY = atob(k.split("").reverse().join(""));
 })();
 
-const BASE_URL = "https://api.themoviedb.org/3";
-const IMG_URL = "https://image.tmdb.org/t/p/original";
+const BASE = "https://api.themoviedb.org/3";
+const IMG = "https://image.tmdb.org/t/p/original";
 
 let currentItem = null;
+let heroItems = [];
+let heroIndex = 0;
 
 /* FETCH */
 async function fetchJSON(url) {
@@ -16,57 +18,56 @@ async function fetchJSON(url) {
 }
 
 async function fetchTrending(type) {
-  const data = await fetchJSON(`${BASE_URL}/trending/${type}/week?api_key=${API_KEY}`);
-  return data?.results || [];
+  const d = await fetchJSON(`${BASE}/trending/${type}/week?api_key=${API_KEY}`);
+  return d?.results || [];
 }
 
-async function fetchTrendingAnime() {
-  const data = await fetchJSON(`${BASE_URL}/trending/tv/week?api_key=${API_KEY}`);
-  return data?.results.filter(
-    i => i.original_language === "ja" && i.genre_ids.includes(16)
-  ) || [];
+/* HERO SLIDER */
+function startHero() {
+  setInterval(() => {
+    heroIndex = (heroIndex + 1) % heroItems.length;
+    displayHero(heroItems[heroIndex]);
+  }, 5000);
 }
 
-/* UI */
 function displayHero(item) {
   const hero = document.getElementById("hero");
-  hero.style.backgroundImage = `url(${IMG_URL}${item.backdrop_path})`;
+  hero.style.backgroundImage = `url(${IMG}${item.backdrop_path})`;
   document.getElementById("hero-title").textContent =
     item.title || item.name;
 }
 
+/* LIST */
 function displayList(items, id) {
   const el = document.getElementById(id);
   el.innerHTML = "";
 
-  items.forEach(item => {
-    if (!item.poster_path) return;
+  items.forEach(i => {
+    if (!i.poster_path) return;
     const img = document.createElement("img");
-    img.src = IMG_URL + item.poster_path;
-    img.loading = "lazy";
-    img.onclick = () => showDetails(item);
+    img.src = IMG + i.poster_path;
+    img.onclick = () => openModal(i);
     el.appendChild(img);
   });
 }
 
 /* MODAL */
-function showDetails(item) {
+function openModal(item) {
   currentItem = item;
   document.body.style.overflow = "hidden";
 
-  const modal = document.getElementById("modal");
-  modal.style.display = "flex";
-
-  document.querySelector(".modal-content").style.backgroundImage =
-    `url(${IMG_URL}${item.poster_path})`;
-
+  document.getElementById("modal").style.display = "flex";
   document.getElementById("modal-title").textContent =
     item.title || item.name;
   document.getElementById("modal-description").textContent =
-    item.overview || "No description available.";
+    item.overview || "";
   document.getElementById("modal-rating").textContent =
     "★".repeat(Math.round(item.vote_average / 2));
 
+  document.getElementById("modal-bg").style.backgroundImage =
+    `url(${IMG}${item.poster_path})`;
+
+  document.getElementById("server").value = "embed";
   changeServer();
 }
 
@@ -78,9 +79,6 @@ function closeModal() {
 
 /* PLAYER */
 function changeServer() {
-  if (!currentItem) return;
-
-  const server = document.getElementById("server").value;
   const id = currentItem.id;
   const isMovie = !!currentItem.title;
 
@@ -91,32 +89,31 @@ function changeServer() {
   document.getElementById("modal-video").src = url;
 }
 
-/* LIVE SEARCH */
-async function liveSearch() {
+/* SEARCH */
+async function searchTMDB() {
   const q = document.getElementById("search-input").value.trim();
   if (!q) return;
 
-  const data = await fetchJSON(
-    `${BASE_URL}/search/multi?api_key=${API_KEY}&query=${q}`
+  const d = await fetchJSON(
+    `${BASE}/search/multi?api_key=${API_KEY}&query=${q}`
   );
 
-  if (data?.results?.length) {
-    showDetails(data.results[0]);
-  }
+  if (d?.results?.length) openModal(d.results[0]);
 }
 
 /* INIT */
 async function init() {
   const movies = await fetchTrending("movie");
   const tv = await fetchTrending("tv");
-  const anime = await fetchTrendingAnime();
 
-  if (movies.length) displayHero(movies[0]);
+  heroItems = movies.slice(0, 5);
+  displayHero(heroItems[0]);
+  startHero();
+
   displayList(movies, "movies-list");
   displayList(tv, "tvshows-list");
-  displayList(anime, "anime-list");
+  displayList(tv.filter(i => i.genre_ids?.includes(16)), "anime-list");
 }
 
 init();
-
 
