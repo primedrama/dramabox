@@ -22,15 +22,7 @@ async function fetchTrending(type) {
   return d?.results || [];
 }
 
-/* HERO AUTO SWIPE */
-function startHero() {
-  if (!heroItems.length) return;
-  setInterval(() => {
-    heroIndex = (heroIndex + 1) % heroItems.length;
-    setHero(heroItems[heroIndex]);
-  }, 5000);
-}
-
+/* HERO */
 function setHero(item) {
   const hero = document.getElementById("hero");
   hero.style.backgroundImage = `url(${IMG}${item.backdrop_path})`;
@@ -38,7 +30,14 @@ function setHero(item) {
     item.title || item.name;
 }
 
-/* UI */
+function startHero() {
+  setInterval(() => {
+    heroIndex = (heroIndex + 1) % heroItems.length;
+    setHero(heroItems[heroIndex]);
+  }, 5000);
+}
+
+/* LIST */
 function displayList(items, id) {
   const el = document.getElementById(id);
   el.innerHTML = "";
@@ -57,10 +56,9 @@ function showDetails(item) {
   currentItem = item;
 
   const modal = document.getElementById("modal");
-  const content = document.querySelector(".modal-content");
+  const bg = document.getElementById("modal-bg");
 
-  content.style.backgroundImage =
-    `url(${IMG}${item.backdrop_path || item.poster_path})`;
+  bg.style.backgroundImage = `url(${IMG}${item.poster_path})`;
 
   document.getElementById("modal-title").textContent =
     item.title || item.name;
@@ -75,11 +73,13 @@ function showDetails(item) {
   changeServer();
 
   modal.style.display = "flex";
+  document.body.classList.add("modal-open");
 }
 
 function closeModal() {
   document.getElementById("modal").style.display = "none";
   document.getElementById("modal-video").src = "";
+  document.body.classList.remove("modal-open");
 }
 
 /* PLAYER */
@@ -89,7 +89,7 @@ function changeServer() {
   const id = currentItem.id;
   const isMovie = !!currentItem.title;
 
-  let url = isMovie
+  const url = isMovie
     ? `https://zxcstream.xyz/embed/movie/${id}`
     : `https://zxcstream.xyz/embed/tv/${id}/1/1`;
 
@@ -97,17 +97,30 @@ function changeServer() {
 }
 
 /* SEARCH */
-async function searchTMDB(e) {
-  if (e.key !== "Enter") return;
-
-  const q = e.target.value.trim();
+async function runSearch() {
+  const q = document.getElementById("search-input").value.trim();
   if (!q) return;
 
-  const d = await fetchJSON(
-    `${BASE}/search/multi?api_key=${API_KEY}&query=${q}`
+  const data = await fetchJSON(
+    `${BASE}/search/multi?api_key=${API_KEY}&query=${encodeURIComponent(q)}`
   );
 
-  if (d?.results?.length) showDetails(d.results[0]);
+  const results = data?.results || [];
+  const section = document.getElementById("search-section");
+  const list = document.getElementById("search-results");
+
+  list.innerHTML = "";
+  section.style.display = "block";
+
+  results.forEach(item => {
+    if (!item.poster_path) return;
+    const img = document.createElement("img");
+    img.src = IMG + item.poster_path;
+    img.onclick = () => showDetails(item);
+    list.appendChild(img);
+  });
+
+  window.scrollTo({ top: section.offsetTop - 80, behavior: "smooth" });
 }
 
 /* INIT */
@@ -127,3 +140,4 @@ async function searchTMDB(e) {
     "anime-list"
   );
 })();
+
