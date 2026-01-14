@@ -7,28 +7,19 @@
 body {
   background: #0f1115;
   color: #fff;
-  font-family: system-ui;
-  line-height: 1.5;
+  font-family: system-ui, sans-serif;
 }
 
-/* =====================
-   NAVBAR
-===================== */
+/* NAVBAR */
 .navbar {
   padding: 14px;
   background: #14161e;
-  position: sticky;
-  top: 0;
-  z-index: 20;
 }
-
 .navbar img {
   height: 36px;
 }
 
-/* =====================
-   HERO / BANNER
-===================== */
+/* HERO */
 .hero {
   height: 40vh;
   background-size: cover;
@@ -37,81 +28,39 @@ body {
   align-items: flex-end;
   padding: 20px;
   position: relative;
-  z-index: 1;
+  transition: background-image 1s ease-in-out;
 }
-
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(15,17,21,0.95),
-    rgba(15,17,21,0.25)
-  );
-  pointer-events: none; /* ⭐ FIX: para mapindot ang nasa baba */
+  background: linear-gradient(to top, rgba(0,0,0,.85), transparent);
 }
-
-#hero-title {
+.hero h1 {
   position: relative;
   font-size: 32px;
-  max-width: 70%;
+  z-index: 1;
 }
 
-/* =====================
-   CONTENT
-===================== */
-main {
-  position: relative;
-  z-index: 5; /* ⭐ ABOVE HERO */
-}
-
-/* =====================
-   ROWS
-===================== */
+/* LISTS */
 .row {
   margin: 20px;
 }
-
-.row h2 {
-  margin-bottom: 10px;
-}
-
-/* =====================
-   LIST
-===================== */
 .list {
   display: flex;
   gap: 12px;
   overflow-x: auto;
-  padding-bottom: 6px;
 }
-
-.list::-webkit-scrollbar {
-  height: 6px;
-}
-
-.list::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.2);
-  border-radius: 10px;
-}
-
 .list img {
   width: 150px;
   border-radius: 12px;
   cursor: pointer;
-  position: relative;
-  z-index: 10; /* ⭐ CLICK SAFE */
-  transition: transform .25s ease, box-shadow .25s ease;
+  transition: transform .2s;
 }
-
 .list img:hover {
-  transform: translateY(-4px) scale(1.03);
-  box-shadow: 0 10px 30px rgba(0,0,0,.6);
+  transform: scale(1.05);
 }
 
-/* =====================
-   MODAL
-===================== */
+/* MODAL */
 .modal {
   position: fixed;
   inset: 0;
@@ -122,7 +71,6 @@ main {
   padding: 10px;
   z-index: 50;
 }
-
 .modal-content {
   background: #12141a;
   width: 100%;
@@ -131,24 +79,19 @@ main {
   padding: 14px;
   position: relative;
 }
-
-/* CLOSE */
 .close {
   position: absolute;
-  right: 12px;
+  right: 14px;
   top: 10px;
-  font-size: 24px;
+  font-size: 26px;
   cursor: pointer;
 }
 
-/* =====================
-   PLAYER
-===================== */
+/* PLAYER */
 .player-wrapper {
   width: 100%;
   aspect-ratio: 16 / 9;
 }
-
 #modal-video {
   width: 100%;
   height: 100%;
@@ -156,67 +99,43 @@ main {
   border: none;
 }
 
-/* =====================
-   INFO
-===================== */
+/* INFO */
 .info-wrapper {
   display: flex;
   gap: 16px;
   margin-top: 14px;
 }
-
 .info-wrapper img {
   width: 140px;
   border-radius: 12px;
 }
-
 .info-text {
   flex: 1;
-  font-size: 14px;
-  opacity: .95;
 }
 
-/* =====================
-   FOOTER (HINDI MAWAWALA)
-===================== */
+/* FOOTER */
 .site-footer {
-  margin-top: 50px;
-  padding: 20px 10px;
   text-align: center;
-  background: #0f0f0f;
+  padding: 20px;
   color: #aaa;
-  font-size: 13px;
 }
-
-.site-footer .disclaimer {
-  margin-top: 6px;
+.disclaimer {
   font-size: 12px;
-  color: #777;
+  opacity: .7;
 }
 
-/* =====================
-   RESPONSIVE
-===================== */
+/* MOBILE */
 @media (max-width: 768px) {
-  .hero {
-    height: 32vh;
-  }
-
-  #hero-title {
-    font-size: 24px;
-    max-width: 100%;
-  }
-
+  .hero { height: 30vh; }
   .info-wrapper {
     flex-direction: column;
     text-align: center;
   }
-
   .info-wrapper img {
     margin: auto;
   }
-
   .list img {
     width: 110px;
   }
 }
+
