@@ -13,46 +13,24 @@ let heroIndex = 0;
 
 /* FETCH */
 async function fetchJSON(url) {
-  try {
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(res.status);
-    return await res.json();
-  } catch (e) {
-    console.error("Fetch error:", e);
-    return null;
-  }
+  const r = await fetch(url);
+  return r.ok ? r.json() : null;
 }
 
 async function fetchTrending(type) {
-  const data = await fetchJSON(`${BASE_URL}/trending/${type}/week?api_key=${API_KEY}`);
-  return data?.results || [];
+  const d = await fetchJSON(`${BASE_URL}/trending/${type}/week?api_key=${API_KEY}`);
+  return d?.results || [];
 }
 
-async function fetchTrendingAnime() {
-  const data = await fetchJSON(`${BASE_URL}/trending/tv/week?api_key=${API_KEY}`);
-  return data?.results.filter(
-    i => i.original_language === "ja" && i.genre_ids.includes(16)
-  ) || [];
-}
-
-/* HERO SLIDER */
-function startHeroSlider(items) {
-  heroItems = items.filter(i => i.backdrop_path);
+/* HERO AUTO SLIDE */
+function updateHero() {
   if (!heroItems.length) return;
-
-  showHero(heroItems[0]);
-
-  setInterval(() => {
-    heroIndex = (heroIndex + 1) % heroItems.length;
-    showHero(heroItems[heroIndex]);
-  }, 6000);
-}
-
-function showHero(item) {
+  const item = heroItems[heroIndex];
   document.getElementById("hero").style.backgroundImage =
     `url(${IMG_URL}${item.backdrop_path})`;
   document.getElementById("hero-title").textContent =
     item.title || item.name;
+  heroIndex = (heroIndex + 1) % heroItems.length;
 }
 
 /* LIST */
@@ -62,10 +40,36 @@ function displayList(items, id) {
 
   items.forEach(item => {
     if (!item.poster_path) return;
+
+    const card = document.createElement("div");
+    card.className = "preview-card";
+
     const img = document.createElement("img");
     img.src = IMG_URL + item.poster_path;
     img.onclick = () => showDetails(item);
-    el.appendChild(img);
+    card.appendChild(img);
+
+    const video = document.createElement("video");
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+
+    fetch(`${BASE_URL}/${item.title ? "movie" : "tv"}/${item.id}/videos?api_key=${API_KEY}`)
+      .then(r => r.json())
+      .then(d => {
+        const t = d.results?.find(v => v.site === "YouTube");
+        if (!t) return;
+        video.src = `https://www.youtube.com/watch?v=${t.key}`;
+      });
+
+    card.onmouseenter = () => video.play();
+    card.onmouseleave = () => {
+      video.pause();
+      video.currentTime = 0;
+    };
+
+    card.appendChild(video);
+    el.appendChild(card);
   });
 }
 
@@ -73,13 +77,12 @@ function displayList(items, id) {
 function showDetails(item) {
   currentItem = item;
   document.getElementById("modal").style.display = "flex";
-  document.getElementById("modal-title").textContent = item.title || item.name;
-  document.getElementById("modal-description").textContent = item.overview || "No description.";
-  document.getElementById("modal-image").src = IMG_URL + item.poster_path;
-  document.getElementById("modal-rating").textContent =
-    "★".repeat(Math.round(item.vote_average / 2));
-
-  document.getElementById("server").value = "embed"; // HD 2 default
+  document.getElementById("modal-title").textContent =
+    item.title || item.name;
+  document.getElementById("modal-description").textContent =
+    item.overview || "";
+  document.getElementById("modal-image").src =
+    IMG_URL + item.poster_path;
   changeServer();
 }
 
@@ -88,31 +91,39 @@ function closeModal() {
   document.getElementById("modal-video").src = "";
 }
 
-/* PLAYER */
 function changeServer() {
   if (!currentItem) return;
-
-  const server = document.getElementById("server").value;
   const id = currentItem.id;
   const isMovie = !!currentItem.title;
+  document.getElementById("modal-video").src =
+    isMovie
+      ? `https://zxcstream.xyz/embed/movie/${id}`
+      : `https://zxcstream.xyz/embed/tv/${id}/1/1`;
+}
 
-  let url = isMovie
-    ? `https://zxcstream.xyz/embed/movie/${id}`
-    : `https://zxcstream.xyz/embed/tv/${id}/1/1`;
-
-  document.getElementById("modal-video").src = url;
+/* SEARCH */
+async function searchTMDB(q) {
+  if (!q) return init();
+  const d = await fetchJSON(
+    `${BASE_URL}/search/multi?api_key=${API_KEY}&query=${q}`
+  );
+  displayList(d.results || [], "movies-list");
 }
 
 /* INIT */
 async function init() {
   const movies = await fetchTrending("movie");
   const tv = await fetchTrending("tv");
-  const anime = await fetchTrendingAnime();
+  const anime = await fetchTrending("tv");
 
-  if (movies.length) startHeroSlider(movies);
+  heroItems = movies.filter(m => m.backdrop_path).slice(0, 5);
+  updateHero();
+  setInterval(updateHero, 5000);
+
   displayList(movies, "movies-list");
   displayList(tv, "tvshows-list");
-  displayList(anime, "anime-list");
+  displayList(anime.filter(a => a.genre_ids.includes(16)), "anime-list");
 }
 
 init();
+
