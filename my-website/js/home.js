@@ -11,23 +11,18 @@ let currentItem = null;
 
 /* FETCH */
 async function fetchJSON(url) {
-  try {
-    const r = await fetch(url);
-    return r.ok ? r.json() : null;
-  } catch {
-    return null;
-  }
+  const res = await fetch(url);
+  return res.ok ? res.json() : null;
 }
 
-/* TRENDING */
 async function fetchTrending(type) {
-  const d = await fetchJSON(`${BASE}/trending/${type}/week?api_key=${API_KEY}`);
-  return d?.results || [];
+  const data = await fetchJSON(`${BASE}/trending/${type}/week?api_key=${API_KEY}`);
+  return data?.results || [];
 }
 
 async function fetchTrendingAnime() {
-  const d = await fetchJSON(`${BASE}/trending/tv/week?api_key=${API_KEY}`);
-  return d?.results.filter(
+  const data = await fetchJSON(`${BASE}/trending/tv/week?api_key=${API_KEY}`);
+  return data?.results.filter(
     i => i.original_language === "ja" && i.genre_ids.includes(16)
   ) || [];
 }
@@ -48,35 +43,6 @@ function displayList(items, id) {
     if (!item.poster_path) return;
     const img = document.createElement("img");
     img.src = IMG + item.poster_path;
-    img.loading = "lazy";
-    img.onclick = () => showDetails(item);
-    el.appendChild(img);
-  });
-}
-
-/* SEARCH NASA TAAS */
-async function searchTMDB(q) {
-  const section = document.getElementById("search-section");
-  const el = document.getElementById("search-results");
-
-  if (!q) {
-    section.hidden = true;
-    el.innerHTML = "";
-    return;
-  }
-
-  const d = await fetchJSON(
-    `${BASE}/search/multi?api_key=${API_KEY}&query=${q}`
-  );
-
-  el.innerHTML = "";
-  section.hidden = false;
-  section.scrollIntoView({ behavior: "smooth" });
-
-  d?.results.forEach(item => {
-    if (!item.poster_path) return;
-    const img = document.createElement("img");
-    img.src = IMG + item.poster_path;
     img.onclick = () => showDetails(item);
     el.appendChild(img);
   });
@@ -86,20 +52,23 @@ async function searchTMDB(q) {
 function showDetails(item) {
   currentItem = item;
 
-  const modal = document.getElementById("modal");
-  modal.style.display = "flex";
+  document.getElementById("modal").style.display = "flex";
   document.body.style.overflow = "hidden";
 
   document.getElementById("modal-title").textContent =
     item.title || item.name;
+
   document.getElementById("modal-description").textContent =
     item.overview || "No description available.";
+
   document.getElementById("modal-rating").textContent =
     "★".repeat(Math.round(item.vote_average / 2));
 
-  document.getElementById("info-wrapper").style.backgroundImage =
-    `linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.75)),url(${IMG}${item.poster_path})`;
+  // BACKGROUND POSTER
+  document.querySelector(".info-wrapper").style.backgroundImage =
+    `url(${IMG}${item.poster_path})`;
 
+  document.getElementById("server").value = "embed";
   changeServer();
 }
 
@@ -113,24 +82,56 @@ function closeModal() {
 function changeServer() {
   if (!currentItem) return;
 
-  const isMovie = !!currentItem.title;
   const id = currentItem.id;
+  const isMovie = !!currentItem.title;
 
-  const url = isMovie
+  let url = isMovie
     ? `https://zxcstream.xyz/embed/movie/${id}`
     : `https://zxcstream.xyz/embed/tv/${id}/1/1`;
 
   document.getElementById("modal-video").src = url;
 }
 
+/* SEARCH */
+async function searchTMDB(q) {
+  const section = document.getElementById("search-section");
+  const el = document.getElementById("search-results");
+
+  if (!q) {
+    section.hidden = true;
+    return;
+  }
+
+  const data = await fetchJSON(
+    `${BASE}/search/multi?api_key=${API_KEY}&query=${q}`
+  );
+
+  el.innerHTML = "";
+  section.hidden = false;
+  section.scrollIntoView({ behavior: "smooth" });
+
+  data?.results.forEach(item => {
+    if (!item.poster_path) return;
+    const img = document.createElement("img");
+    img.src = IMG + item.poster_path;
+    img.onclick = () => showDetails(item);
+    el.appendChild(img);
+  });
+}
+
 /* INIT */
-(async function init() {
+async function init() {
   const movies = await fetchTrending("movie");
   const tv = await fetchTrending("tv");
   const anime = await fetchTrendingAnime();
 
   if (movies.length) displayBanner(movies[0]);
+
   displayList(movies, "movies-list");
   displayList(tv, "tvshows-list");
   displayList(anime, "anime-list");
-})();
+}
+
+init();
+
+
