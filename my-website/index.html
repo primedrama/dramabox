@@ -6,15 +6,19 @@
 
   <link rel="stylesheet" href="css/home.css">
   <script defer src="js/home.js"></script>
-
- 
 </head>
 
 <body>
 
-<!-- NAVBAR -->
 <header class="navbar">
   <img src="https://i.ibb.co/W4TZSVj4/logo.png" alt="Drama Box Logo">
+
+  <input
+    class="search-bar"
+    type="text"
+    placeholder="Search movies or shows..."
+    oninput="searchTMDB(this.value)"
+  />
 </header>
 
 <!-- HERO / BANNER -->
@@ -23,22 +27,23 @@
   <h1 id="hero-title"></h1>
 </section>
 
-<!-- CONTENT -->
 <main>
-  <section class="row">
-    <h2>Trending Movies</h2>
+
+  <section class="row box">
+    <h2 class="section-title movies">🎥 Trending Movies</h2>
     <div class="list" id="movies-list"></div>
   </section>
 
-  <section class="row">
-    <h2>Trending TV Shows</h2>
+  <section class="row box">
+    <h2 class="section-title tv">📺 Trending TV Series</h2>
     <div class="list" id="tvshows-list"></div>
   </section>
 
-  <section class="row">
-    <h2>Trending Anime</h2>
+  <section class="row box">
+    <h2 class="section-title anime">🎌 Trending Anime</h2>
     <div class="list" id="anime-list"></div>
   </section>
+
 </main>
 
 <!-- MODAL -->
@@ -46,25 +51,19 @@
   <div class="modal-content">
     <span class="close" onclick="closeModal()">&times;</span>
 
-    <!-- PLAYER -->
     <div class="player-wrapper">
-      <iframe
-        id="modal-video"
-        allow="autoplay; fullscreen"
-        allowfullscreen>
-      </iframe>
+      <iframe id="modal-video" allowfullscreen></iframe>
     </div>
 
-    <!-- INFO -->
     <div class="info-wrapper">
-      <img id="modal-image" alt="Poster">
+      <img id="modal-image">
       <div class="info-text">
         <h2 id="modal-title"></h2>
         <div id="modal-rating"></div>
         <p id="modal-description"></p>
 
-        <!-- HIDDEN SERVER (HD 2 DEFAULT) -->
-        <select id="server" onchange="changeServer()" hidden>
+        <!-- hidden server (HD2 default) -->
+        <select id="server" hidden>
           <option value="embed" selected>HD 2</option>
           <option value="player">HD 1</option>
         </select>
@@ -73,12 +72,11 @@
   </div>
 </div>
 
-<!-- FOOTER -->
 <footer class="site-footer">
   <p>© <span id="year"></span> Drama Box. All rights reserved.</p>
   <p class="disclaimer">
     This site does not store any files on our server.
-    We only link to media hosted on 3rd party services.
+    We only link to the media which is hosted on 3rd party services.
   </p>
 </footer>
 
@@ -88,6 +86,8 @@
 
 </body>
 </html>
+
+
 
 
 
