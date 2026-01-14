@@ -11,62 +11,54 @@
 <body>
 
 <header class="navbar">
-  <img src="https://i.ibb.co/W4TZSVj4/logo.png" alt="Drama Box">
+  <img src="https://i.ibb.co/W4TZSVj4/logo.png" alt="Drama Box Logo">
 
   <div class="search-box">
     <input
-      id="search-input"
       type="text"
-      placeholder="Search movies, TV shows, anime..."
-      onkeydown="if(event.key==='Enter') runSearch()"
-    >
-    <button onclick="runSearch()">Search</button>
+      id="search-input"
+      placeholder="Search movies, TV, anime..."
+      oninput="liveSearch()"
+    />
+    <button class="search-btn">🔍</button>
   </div>
 </header>
 
-<!-- HERO -->
+<!-- HERO / BANNER -->
 <section class="hero" id="hero">
   <div class="hero-overlay"></div>
   <h1 id="hero-title"></h1>
 </section>
 
 <main>
-
-  <!-- SEARCH RESULTS -->
-  <section class="category-box" id="search-section" style="display:none">
-    <h2>🔍 Search Results</h2>
-    <div class="list" id="search-results"></div>
-  </section>
-
-  <section class="category-box">
-    <h2>🎬 Trending Movies</h2>
+  <section class="row">
+    <h2 class="section-title movie">🎥 Trending Movies</h2>
     <div class="list" id="movies-list"></div>
   </section>
 
-  <section class="category-box">
-    <h2>📺 Trending TV Shows</h2>
+  <section class="row">
+    <h2 class="section-title tv">📺 Trending TV Series</h2>
     <div class="list" id="tvshows-list"></div>
   </section>
 
-  <section class="category-box">
-    <h2>🎌 Trending Anime</h2>
+  <section class="row">
+    <h2 class="section-title anime">🎌 Trending Anime</h2>
     <div class="list" id="anime-list"></div>
   </section>
-
 </main>
 
 <!-- MODAL -->
 <div class="modal" id="modal">
-  <div class="modal-content" id="modal-bg">
+  <div class="modal-content">
 
-    <span class="close" onclick="closeModal()">×</span>
+    <span class="close" onclick="closeModal()">&times;</span>
 
     <div class="player-wrapper">
       <iframe id="modal-video" allowfullscreen></iframe>
     </div>
 
     <div class="info-wrapper">
-      <div class="info-text">
+      <div class="info-text glow">
         <h2 id="modal-title"></h2>
         <div id="modal-rating"></div>
         <p id="modal-description"></p>
@@ -84,6 +76,10 @@
 
 <footer class="site-footer">
   <p>© <span id="year"></span> Drama Box. All rights reserved.</p>
+  <p class="disclaimer">
+    This site does not store any files on our server.
+    We only link to media hosted on 3rd party services.
+  </p>
 </footer>
 
 <script>
@@ -92,6 +88,7 @@
 
 </body>
 </html>
+
 
 
 
