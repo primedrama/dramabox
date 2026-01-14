@@ -52,10 +52,9 @@ function displayList(items, id) {
 
 /* PRELOAD */
 function preloadPlayer(item) {
-  const id = item.id;
   preloadUrl = item.title
-    ? `https://zxcstream.xyz/embed/movie/${id}`
-    : `https://zxcstream.xyz/embed/tv/${id}/1/1`;
+    ? `https://zxcstream.xyz/embed/movie/${item.id}`
+    : `https://zxcstream.xyz/embed/tv/${item.id}/1/1`;
 
   preloadIframe = document.createElement("iframe");
   preloadIframe.src = preloadUrl;
@@ -68,12 +67,8 @@ function showDetails(item) {
   currentItem = item;
   document.body.style.overflow = "hidden";
 
-  const modal = document.getElementById("modal");
-  const infoBg = document.getElementById("info-bg");
-
-  modal.style.display = "flex";
-
-  infoBg.style.backgroundImage =
+  document.getElementById("modal").style.display = "flex";
+  document.getElementById("info-bg").style.backgroundImage =
     `url(${IMG}${item.poster_path})`;
 
   document.getElementById("modal-title").textContent =
@@ -103,8 +98,7 @@ function closeModal() {
 /* PLAYER */
 function changeServer() {
   if (!currentItem) return;
-  const iframe = document.getElementById("modal-video");
-  iframe.src = preloadUrl;
+  document.getElementById("modal-video").src = preloadUrl;
 }
 
 /* SEARCH */
