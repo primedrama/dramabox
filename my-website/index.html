@@ -12,12 +12,16 @@
 
 <header class="navbar">
   <img src="https://i.ibb.co/W4TZSVj4/logo.png" alt="Drama Box">
-  <input
-    id="search-input"
-    class="search-bar"
-    placeholder="Search movies, TV, anime..."
-    onkeyup="searchTMDB(event)"
-  >
+
+  <div class="search-box">
+    <input
+      id="search-input"
+      type="text"
+      placeholder="Search movies, TV shows, anime..."
+      onkeydown="if(event.key==='Enter') runSearch()"
+    >
+    <button onclick="runSearch()">Search</button>
+  </div>
 </header>
 
 <!-- HERO -->
@@ -27,6 +31,12 @@
 </section>
 
 <main>
+
+  <!-- SEARCH RESULTS -->
+  <section class="category-box" id="search-section" style="display:none">
+    <h2>🔍 Search Results</h2>
+    <div class="list" id="search-results"></div>
+  </section>
 
   <section class="category-box">
     <h2>🎬 Trending Movies</h2>
@@ -47,7 +57,7 @@
 
 <!-- MODAL -->
 <div class="modal" id="modal">
-  <div class="modal-content">
+  <div class="modal-content" id="modal-bg">
 
     <span class="close" onclick="closeModal()">×</span>
 
@@ -61,6 +71,7 @@
         <div id="modal-rating"></div>
         <p id="modal-description"></p>
 
+        <!-- hidden server -->
         <select id="server" hidden>
           <option value="embed" selected>HD 2</option>
           <option value="player">HD 1</option>
@@ -81,6 +92,8 @@
 
 </body>
 </html>
+
+
 
 
 
