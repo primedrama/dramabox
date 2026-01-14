@@ -5,13 +5,9 @@
 }
 
 body {
-  background: #000;
+  background: #0f1115;
   color: #fff;
-  font-family: system-ui, sans-serif;
-}
-
-body.modal-open {
-  overflow: hidden;
+  font-family: system-ui;
 }
 
 /* NAVBAR */
@@ -20,7 +16,7 @@ body.modal-open {
   justify-content: space-between;
   align-items: center;
   padding: 14px;
-  background: #000;
+  background: #14161e;
 }
 
 .navbar img {
@@ -30,22 +26,23 @@ body.modal-open {
 /* SEARCH */
 .search-box {
   display: flex;
-  gap: 6px;
+  gap: 8px;
 }
 
 .search-box input {
-  padding: 8px 10px;
-  border-radius: 8px;
+  padding: 8px 14px;
+  border-radius: 20px;
   border: none;
-  outline: none;
+  background: rgba(255,255,255,0.12);
+  color: #fff;
 }
 
-.search-box button {
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: none;
+.search-btn {
   background: #e50914;
-  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
   cursor: pointer;
 }
 
@@ -54,40 +51,36 @@ body.modal-open {
   height: 45vh;
   background-size: cover;
   background-position: center;
-  position: relative;
   display: flex;
   align-items: flex-end;
   padding: 20px;
+  position: relative;
+  animation: fadeIn 1s ease;
 }
 
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, #000, transparent);
+  background: linear-gradient(to top, #0f1115, transparent);
 }
 
-#hero-title {
+.hero h1 {
   position: relative;
   font-size: 32px;
-  z-index: 1;
 }
 
-/* CATEGORY */
-.category-box {
-  margin: 22px;
-  padding: 14px;
-  border-radius: 18px;
-  background: rgba(229,9,20,0.15);
-  box-shadow: 0 0 14px rgba(229,9,20,0.4);
+/* SECTION */
+.row {
+  margin: 20px;
 }
 
-.category-box h2 {
+.section-title {
   display: inline-block;
   padding: 6px 14px;
-  border-radius: 20px;
-  background: rgba(229,9,20,0.7);
-  font-size: 18px;
-  margin-bottom: 10px;
+  border-radius: 18px;
+  font-size: 16px;
+  margin-bottom: 12px;
+  background: rgba(229,9,20,0.85);
 }
 
 /* LIST */
@@ -99,61 +92,60 @@ body.modal-open {
 
 .list img {
   width: 150px;
-  border-radius: 14px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: transform .25s;
+  transition: transform .3s;
 }
 
 .list img:hover {
-  transform: scale(1.08);
+  transform: scale(1.06);
 }
 
 /* MODAL */
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.95);
+  background: rgba(0,0,0,.85);
   display: none;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 100;
 }
 
 .modal-content {
-  width: 95%;
-  max-width: 1100px;
   background-size: cover;
   background-position: center;
-  border-radius: 20px;
+  width: 100%;
+  max-width: 1100px;
+  border-radius: 16px;
   padding: 14px;
   position: relative;
+  animation: pop .4s ease;
 }
 
 .modal-content::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,.85);
-  border-radius: 20px;
-}
-
-.modal-content > * {
-  position: relative;
-  z-index: 1;
+  background: rgba(0,0,0,.65);
+  border-radius: 16px;
 }
 
 .close {
   position: absolute;
-  top: 12px;
   right: 14px;
-  font-size: 26px;
+  top: 10px;
+  font-size: 24px;
   cursor: pointer;
+  z-index: 2;
 }
 
 /* PLAYER */
 .player-wrapper {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 16/9;
+  position: relative;
+  z-index: 2;
 }
 
 #modal-video {
@@ -166,26 +158,57 @@ body.modal-open {
 /* INFO */
 .info-wrapper {
   margin-top: 14px;
+  position: relative;
+  z-index: 2;
 }
 
 .info-text {
-  background: rgba(0,0,0,.7);
+  background: rgba(0,0,0,.35);
   padding: 16px;
-  border-radius: 14px;
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+}
+
+/* GLOW */
+.glow {
+  box-shadow: 0 0 20px rgba(229,9,20,.6);
 }
 
 /* FOOTER */
 .site-footer {
   text-align: center;
   padding: 20px;
-  opacity: .6;
+  color: #aaa;
 }
 
 /* MOBILE */
 @media (max-width: 768px) {
-  .list img { width: 110px; }
-  #hero-title { font-size: 22px; }
+  .navbar {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-box {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .search-box input {
+    width: 70%;
+  }
 }
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes pop {
+  from {transform: scale(.9); opacity: 0;}
+  to {transform: scale(1); opacity: 1;}
+}
+
 
 
 
