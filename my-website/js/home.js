@@ -8,22 +8,27 @@ const BASE = "https://api.themoviedb.org/3";
 const IMG = "https://image.tmdb.org/t/p/original";
 
 let currentItem = null;
-let preloadIframe = null;
-let preloadUrl = "";
-let searchTimer = null;
 
 /* FETCH */
-const fetchJSON = url => fetch(url).then(r => r.ok ? r.json() : null);
+async function fetchJSON(url) {
+  try {
+    const r = await fetch(url);
+    return r.ok ? r.json() : null;
+  } catch {
+    return null;
+  }
+}
 
-const fetchTrending = type =>
-  fetchJSON(`${BASE}/trending/${type}/week?api_key=${API_KEY}`)
-    .then(d => d?.results || []);
+/* TRENDING */
+async function fetchTrending(type) {
+  const d = await fetchJSON(`${BASE}/trending/${type}/week?api_key=${API_KEY}`);
+  return d?.results || [];
+}
 
 async function fetchTrendingAnime() {
-  const data = await fetchJSON(`${BASE}/trending/tv/week?api_key=${API_KEY}`);
-  return data?.results.filter(i =>
-    i.original_language === "ja" &&
-    i.genre_ids?.includes(16)
+  const d = await fetchJSON(`${BASE}/trending/tv/week?api_key=${API_KEY}`);
+  return d?.results.filter(
+    i => i.original_language === "ja" && i.genre_ids.includes(16)
   ) || [];
 }
 
@@ -45,83 +50,30 @@ function displayList(items, id) {
     img.src = IMG + item.poster_path;
     img.loading = "lazy";
     img.onclick = () => showDetails(item);
-    img.onmouseenter = () => preloadPlayer(item);
     el.appendChild(img);
   });
 }
 
-/* PRELOAD */
-function preloadPlayer(item) {
-  preloadUrl = item.title
-    ? `https://zxcstream.xyz/embed/movie/${item.id}`
-    : `https://zxcstream.xyz/embed/tv/${item.id}/1/1`;
-
-  preloadIframe = document.createElement("iframe");
-  preloadIframe.src = preloadUrl;
-  preloadIframe.style.display = "none";
-  document.body.appendChild(preloadIframe);
-}
-
-/* MODAL */
-function showDetails(item) {
-  currentItem = item;
-  document.body.style.overflow = "hidden";
-
-  document.getElementById("modal").style.display = "flex";
-  document.getElementById("info-bg").style.backgroundImage =
-    `url(${IMG}${item.poster_path})`;
-
-  document.getElementById("modal-title").textContent =
-    item.title || item.name;
-
-  document.getElementById("modal-description").textContent =
-    item.overview || "No description.";
-
-  document.getElementById("modal-rating").textContent =
-    "★".repeat(Math.round(item.vote_average / 2));
-
-  changeServer();
-}
-
-function closeModal() {
-  document.getElementById("modal").style.display = "none";
-  document.getElementById("modal-video").src = "";
-  document.body.style.overflow = "";
-
-  if (preloadIframe) {
-    preloadIframe.remove();
-    preloadIframe = null;
-    preloadUrl = "";
-  }
-}
-
-/* PLAYER */
-function changeServer() {
-  if (!currentItem) return;
-  document.getElementById("modal-video").src = preloadUrl;
-}
-
-/* SEARCH */
-function debouncedSearch(q) {
-  clearTimeout(searchTimer);
-  searchTimer = setTimeout(() => searchTMDB(q), 400);
-}
-
+/* SEARCH NASA TAAS */
 async function searchTMDB(q) {
+  const section = document.getElementById("search-section");
+  const el = document.getElementById("search-results");
+
   if (!q) {
-    document.getElementById("search-section").hidden = true;
+    section.hidden = true;
+    el.innerHTML = "";
     return;
   }
 
-  const data = await fetchJSON(
+  const d = await fetchJSON(
     `${BASE}/search/multi?api_key=${API_KEY}&query=${q}`
   );
 
-  const el = document.getElementById("search-results");
   el.innerHTML = "";
-  document.getElementById("search-section").hidden = false;
+  section.hidden = false;
+  section.scrollIntoView({ behavior: "smooth" });
 
-  data?.results.forEach(item => {
+  d?.results.forEach(item => {
     if (!item.poster_path) return;
     const img = document.createElement("img");
     img.src = IMG + item.poster_path;
@@ -130,8 +82,49 @@ async function searchTMDB(q) {
   });
 }
 
+/* MODAL */
+function showDetails(item) {
+  currentItem = item;
+
+  const modal = document.getElementById("modal");
+  modal.style.display = "flex";
+  document.body.style.overflow = "hidden";
+
+  document.getElementById("modal-title").textContent =
+    item.title || item.name;
+  document.getElementById("modal-description").textContent =
+    item.overview || "No description available.";
+  document.getElementById("modal-rating").textContent =
+    "★".repeat(Math.round(item.vote_average / 2));
+
+  document.getElementById("info-wrapper").style.backgroundImage =
+    `linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.75)),url(${IMG}${item.poster_path})`;
+
+  changeServer();
+}
+
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
+  document.getElementById("modal-video").src = "";
+  document.body.style.overflow = "";
+}
+
+/* PLAYER */
+function changeServer() {
+  if (!currentItem) return;
+
+  const isMovie = !!currentItem.title;
+  const id = currentItem.id;
+
+  const url = isMovie
+    ? `https://zxcstream.xyz/embed/movie/${id}`
+    : `https://zxcstream.xyz/embed/tv/${id}/1/1`;
+
+  document.getElementById("modal-video").src = url;
+}
+
 /* INIT */
-async function init() {
+(async function init() {
   const movies = await fetchTrending("movie");
   const tv = await fetchTrending("tv");
   const anime = await fetchTrendingAnime();
@@ -140,6 +133,4 @@ async function init() {
   displayList(movies, "movies-list");
   displayList(tv, "tvshows-list");
   displayList(anime, "anime-list");
-}
-
-init();
+})();
