@@ -11,20 +11,21 @@
 <body>
 
 <header class="navbar">
-  <img class="logo" src="https://i.ibb.co/W4TZSVj4/logo.png" alt="Drama Box">
+  <div class="nav-inner">
+    <img class="logo" src="https://i.ibb.co/W4TZSVj4/logo.png" alt="Drama Box">
+
+    <div class="search-wrapper">
+      <input
+        id="search-input"
+        type="text"
+        placeholder="Search movies or TV shows..."
+        oninput="debouncedSearch(this.value)"
+      />
+      <button class="search-btn">🔍</button>
+    </div>
+  </div>
 </header>
 
-<!-- SEARCH -->
-<div class="search-wrapper">
-  <input
-    id="search-input"
-    type="text"
-    placeholder="Search movies or TV shows..."
-    oninput="debouncedSearch(this.value)"
-  />
-</div>
-
-<!-- HERO -->
 <section class="banner" id="banner">
   <h1 id="banner-title"></h1>
 </section>
@@ -45,7 +46,6 @@
     <div class="list" id="anime-list"></div>
   </section>
 
-  <!-- SEARCH RESULTS -->
   <section class="row" id="search-section" hidden>
     <h2>🔍 Search Results</h2>
     <div class="grid" id="search-results"></div>
@@ -74,7 +74,6 @@
       </div>
     </div>
 
-    <!-- hidden server -->
     <select id="server" hidden>
       <option value="embed" selected>HD 2</option>
       <option value="player">HD 1</option>
@@ -97,8 +96,6 @@
 
 </body>
 </html>
-
-
 
 
 
