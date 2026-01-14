@@ -15,7 +15,7 @@
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <!-- Script -->
+  <!-- Scripts -->
   <script defer src="js/home.js"></script>
   <script src="https://hammerartist.com/de/65/c3/de65c3d554501dfedc6e707ff79efbf9.js"></script>
 </head>
@@ -24,10 +24,7 @@
 
   <!-- ================= HEADER ================= -->
   <header class="navbar">
-    <img
-      src="https://i.ibb.co/W4TZSVj4/logo.png"
-      alt="Website Logo"
-    />
+    <img src="https://i.ibb.co/W4TZSVj4/logo.png" alt="Website Logo" />
 
     <nav class="nav-links">
       <a href="index.html">Home</a>
@@ -68,10 +65,8 @@
   <!-- ================= MODAL ================= -->
   <div class="modal" id="modal">
     <div class="modal-content">
-
       <button class="close" onclick="closeModal()">&times;</button>
 
-      <!-- INFO -->
       <div class="modal-body">
         <img id="modal-image" src="" alt="Poster" />
         <div class="modal-text">
@@ -81,14 +76,36 @@
         </div>
       </div>
 
-      <!-- SERVER SELECTOR (LABELS SWAPPED) -->
+      <!-- SERVER SELECTOR -->
       <div class="server-selector">
         <label for="server">Server:</label>
         <select id="server" onchange="changeServer()">
-          <option value="player">Server 2</option>
-          <option value="embed">Server 1</option>
+          <option value="player">HD 1</option>
+          <option value="embed">HD 2</option>
         </select>
       </div>
+    </div>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <p>
+      © <span id="year"></span> Drama Box. All rights reserved.
+    </p>
+    <p class="disclaimer">
+      This site does not store any files on our server. We only link to the media
+      which is hosted on 3rd party services.
+    </p>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
+
 
     
+
 
