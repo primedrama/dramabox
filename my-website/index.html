@@ -11,41 +11,46 @@
 <body>
 
 <header class="navbar">
-  <img class="logo" src="https://i.ibb.co/W4TZSVj4/logo.png" alt="Drama Box Logo">
-  <input
-    type="text"
-    class="search-bar"
-    placeholder="Search movies, TV shows, anime..."
-    oninput="searchTMDB(this.value)"
-  >
+  <img class="logo" src="https://i.ibb.co/W4TZSVj4/logo.png" alt="Drama Box">
 </header>
 
+<!-- SEARCH -->
+<div class="search-wrapper">
+  <input
+    id="search-input"
+    type="text"
+    placeholder="Search movies or TV shows..."
+    oninput="debouncedSearch(this.value)"
+  />
+</div>
+
 <!-- HERO -->
-<section class="hero" id="hero">
-  <h1 id="hero-title"></h1>
+<section class="banner" id="banner">
+  <h1 id="banner-title"></h1>
 </section>
 
 <main>
-  <section class="row red-glow">
+  <section class="row box red-glow">
     <h2>🎬 Trending Movies</h2>
     <div class="list" id="movies-list"></div>
   </section>
 
-  <section class="row red-glow">
+  <section class="row box red-glow">
     <h2>📺 Trending TV Shows</h2>
     <div class="list" id="tvshows-list"></div>
   </section>
 
-  <section class="row red-glow">
+  <section class="row box red-glow">
     <h2>🎌 Trending Anime</h2>
     <div class="list" id="anime-list"></div>
   </section>
-</main>
 
-<!-- SEARCH RESULTS -->
-<div class="search-modal" id="search-modal">
-  <div class="search-results" id="search-results"></div>
-</div>
+  <!-- SEARCH RESULTS -->
+  <section class="row" id="search-section" hidden>
+    <h2>🔍 Search Results</h2>
+    <div class="grid" id="search-results"></div>
+  </section>
+</main>
 
 <!-- MODAL -->
 <div class="modal" id="modal">
@@ -54,18 +59,25 @@
     <span class="close" onclick="closeModal()">✕</span>
 
     <div class="player-wrapper">
-      <iframe id="modal-video" allowfullscreen></iframe>
+      <iframe
+        id="modal-video"
+        allow="autoplay; fullscreen"
+        allowfullscreen>
+      </iframe>
     </div>
 
-    <div class="info-wrapper" id="info-wrapper">
-      <h2 id="modal-title"></h2>
-      <div id="modal-rating"></div>
-      <p id="modal-description"></p>
+    <div class="info-wrapper" id="info-bg">
+      <div class="info-text">
+        <h2 id="modal-title"></h2>
+        <div id="modal-rating"></div>
+        <p id="modal-description"></p>
+      </div>
     </div>
 
-    <!-- hidden server (HD2 default) -->
+    <!-- hidden server -->
     <select id="server" hidden>
       <option value="embed" selected>HD 2</option>
+      <option value="player">HD 1</option>
     </select>
 
   </div>
@@ -75,7 +87,7 @@
   <p>© <span id="year"></span> Drama Box. All rights reserved.</p>
   <p class="disclaimer">
     This site does not store any files on our server.
-    We only link to the media which is hosted on 3rd party services.
+    We only link to media hosted on 3rd-party services.
   </p>
 </footer>
 
@@ -85,6 +97,7 @@
 
 </body>
 </html>
+
 
 
 
