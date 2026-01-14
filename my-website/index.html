@@ -15,14 +15,13 @@
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <!-- Scripts -->
+  <!-- Script -->
   <script defer src="js/home.js"></script>
-
 </head>
 
 <body>
 
-  <!-- HEADER -->
+  <!-- ================= HEADER ================= -->
   <header class="navbar">
     <img src="https://i.ibb.co/W4TZSVj4/logo.png" alt="Website Logo" />
     <nav class="nav-links">
@@ -36,14 +35,14 @@
     </nav>
   </header>
 
-  <!-- BANNER -->
+  <!-- ================= BANNER ================= -->
   <section class="banner" id="banner">
     <div class="banner-overlay">
       <h1 id="banner-title"></h1>
     </div>
   </section>
 
-  <!-- CONTENT -->
+  <!-- ================= CONTENT ================= -->
   <main>
     <section class="row">
       <h2>Trending Movies</h2>
@@ -61,7 +60,7 @@
     </section>
   </main>
 
-  <!-- MODAL -->
+  <!-- ================= MODAL ================= -->
   <div class="modal" id="modal">
     <div class="modal-content">
       <button class="close" onclick="closeModal()">&times;</button>
@@ -75,6 +74,7 @@
         </div>
       </div>
 
+      <!-- SERVER SELECTOR -->
       <div class="server-selector">
         <label for="server">Server:</label>
         <select id="server" onchange="changeServer()">
@@ -82,10 +82,31 @@
           <option value="embed">HD 2</option>
         </select>
       </div>
+
+      <!-- ✅ REQUIRED PLAYER IFRAME -->
+      <iframe
+        id="modal-video"
+        src=""
+        frameborder="0"
+        allowfullscreen
+        style="width:100%; height:420px; margin-top:10px;"
+      ></iframe>
     </div>
   </div>
 
-  <!-- FOOTER -->
+  <!-- ================= SEARCH MODAL ================= -->
+  <div class="search-modal" id="search-modal">
+    <input
+      type="text"
+      id="search-input"
+      placeholder="Search movies, TV shows..."
+      oninput="searchTMDB()"
+    />
+    <div class="results" id="search-results"></div>
+    <button class="close" onclick="closeSearchModal()">&times;</button>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
   <footer class="site-footer">
     <p>© <span id="year"></span> Drama Box. All rights reserved.</p>
     <p class="disclaimer">
@@ -100,9 +121,6 @@
 
 </body>
 </html>
-
-
-    
 
 
 
