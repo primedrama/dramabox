@@ -10,27 +10,31 @@
 
 <body>
 
+<!-- NAVBAR -->
 <header class="navbar">
-  <div class="nav-inner">
-    <img class="logo" src="https://i.ibb.co/W4TZSVj4/logo.png" alt="Drama Box">
+  <img src="https://i.ibb.co/W4TZSVj4/logo.png" alt="Drama Box Logo" class="logo">
 
-    <div class="search-wrapper">
-      <input
-        id="search-input"
-        type="text"
-        placeholder="Search movies or TV shows..."
-        oninput="debouncedSearch(this.value)"
-      />
-      <button class="search-btn">🔍</button>
-    </div>
-  </div>
+  <input
+    type="text"
+    class="search-bar"
+    placeholder="Search movies, tv shows..."
+    oninput="searchTMDB(this.value)"
+  />
 </header>
 
+<!-- HERO / BANNER -->
 <section class="banner" id="banner">
   <h1 id="banner-title"></h1>
 </section>
 
 <main>
+
+  <!-- SEARCH RESULTS NASA TAAS -->
+  <section class="row" id="search-section" hidden>
+    <h2>🔍 Search Results</h2>
+    <div class="list" id="search-results"></div>
+  </section>
+
   <section class="row box red-glow">
     <h2>🎬 Trending Movies</h2>
     <div class="list" id="movies-list"></div>
@@ -46,10 +50,6 @@
     <div class="list" id="anime-list"></div>
   </section>
 
-  <section class="row" id="search-section" hidden>
-    <h2>🔍 Search Results</h2>
-    <div class="grid" id="search-results"></div>
-  </section>
 </main>
 
 <!-- MODAL -->
@@ -59,14 +59,10 @@
     <span class="close" onclick="closeModal()">✕</span>
 
     <div class="player-wrapper">
-      <iframe
-        id="modal-video"
-        allow="autoplay; fullscreen"
-        allowfullscreen>
-      </iframe>
+      <iframe id="modal-video" allowfullscreen></iframe>
     </div>
 
-    <div class="info-wrapper" id="info-bg">
+    <div class="info-wrapper" id="info-wrapper">
       <div class="info-text">
         <h2 id="modal-title"></h2>
         <div id="modal-rating"></div>
@@ -82,11 +78,12 @@
   </div>
 </div>
 
+<!-- FOOTER -->
 <footer class="site-footer">
   <p>© <span id="year"></span> Drama Box. All rights reserved.</p>
   <p class="disclaimer">
     This site does not store any files on our server.
-    We only link to media hosted on 3rd-party services.
+    We only link to media hosted on 3rd party services.
   </p>
 </footer>
 
@@ -96,6 +93,7 @@
 
 </body>
 </html>
+
 
 
 
