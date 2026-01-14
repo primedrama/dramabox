@@ -10,18 +10,14 @@
 
 <body>
 
-<!-- NAVBAR -->
 <header class="navbar">
-  <img src="https://i.ibb.co/W4TZSVj4/logo.png" alt="Drama Box">
-  <input class="search-bar" placeholder="Search movies or shows..." />
+  <img src="https://i.ibb.co/W4TZSVj4/logo.png" alt="Logo">
 </header>
 
-<!-- BANNER -->
 <section class="banner" id="banner">
   <h1 id="banner-title"></h1>
 </section>
 
-<!-- CONTENT -->
 <main>
   <section class="row">
     <h2>Trending Movies</h2>
@@ -43,40 +39,34 @@
 <div class="modal" id="modal">
   <div class="modal-content">
 
-    <span class="close" onclick="closeModal()">×</span>
+    <span class="close" onclick="closeModal()">&times;</span>
 
-    <div class="modal-body">
-      <img id="modal-image" />
+    <!-- PLAYER -->
+    <div class="player-wrapper">
+      <iframe id="modal-video" allowfullscreen></iframe>
+    </div>
 
-      <div class="modal-text">
+    <!-- INFO -->
+    <div class="info-wrapper">
+      <img id="modal-image">
+      <div class="info-text">
         <h2 id="modal-title"></h2>
         <div id="modal-rating"></div>
         <p id="modal-description"></p>
 
-        <button onclick="openPlayer()">▶ Play</button>
+        <!-- SERVER (HIDDEN UI) -->
+        <select id="server" onchange="changeServer()" hidden>
+          <option value="embed" selected>HD 2</option>
+          <option value="player">HD 1</option>
+        </select>
       </div>
-    </div>
-
-    <!-- PLAYER (HIDDEN UNTIL PLAY) -->
-    <div id="player-container">
-      <iframe id="modal-video" allowfullscreen></iframe>
-
-      <select id="server" onchange="changeServer()">
-        <option value="player">HD 1 (Recommended)</option>
-        <option value="embed">HD 2 (Auto Play)</option>
-      </select>
     </div>
 
   </div>
 </div>
 
-<!-- FOOTER -->
 <footer class="site-footer">
-  <p>© <span id="year"></span> Drama Box. All rights reserved.</p>
-  <p class="disclaimer">
-    This site does not store any files on our server.
-    We only link to the media which is hosted on 3rd party services.
-  </p>
+  © <span id="year"></span> Drama Box
 </footer>
 
 <script>
@@ -85,4 +75,6 @@
 
 </body>
 </html>
+
+
 
