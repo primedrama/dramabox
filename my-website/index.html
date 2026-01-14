@@ -81,53 +81,14 @@
         </div>
       </div>
 
-      <!-- SERVER SELECTOR (HIDDEN PLAYER NAME) -->
+      <!-- SERVER SELECTOR (LABELS SWAPPED) -->
       <div class="server-selector">
         <label for="server">Server:</label>
         <select id="server" onchange="changeServer()">
-          <option value="player">Server 1</option>
-          <option value="embed">Server 2</option>
+          <option value="player">Server 2</option>
+          <option value="embed">Server 1</option>
         </select>
       </div>
 
-      <!-- BIG VIDEO PLAYER -->
-      <div class="video-wrapper">
-        <iframe
-          id="modal-video"
-          title="Video Player"
-          allowfullscreen
-        ></iframe>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ================= SEARCH ================= -->
-  <div class="search-modal" id="search-modal">
-    <button class="close" onclick="closeSearchModal()">&times;</button>
-
-    <input
-      type="text"
-      id="search-input"
-      placeholder="Search for a movie or show..."
-      oninput="searchTMDB()"
-    />
-
-    <div class="results" id="search-results"></div>
-  </div>
-
-  <!-- ================= FOOTER ================= -->
-  <footer class="footer">
-    <div class="footer-content">
-      <p>&copy; 2025 Drama Box. All rights reserved.</p>
-      <div class="footer-links">
-        <a href="#">Disclaimer</a>
-        <a href="#">About Us</a>
-        <a href="#">Contact Us</a>
-      </div>
-    </div>
-  </footer>
-
-</body>
-</html>
+    
 
