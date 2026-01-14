@@ -10,15 +10,18 @@
 
 <body>
 
+<!-- NAVBAR -->
 <header class="navbar">
   <img src="https://i.ibb.co/W4TZSVj4/logo.png" alt="Drama Box Logo">
 </header>
 
+<!-- HERO / BANNER -->
 <section class="hero" id="hero">
   <div class="hero-overlay"></div>
   <h1 id="hero-title"></h1>
 </section>
 
+<!-- CONTENT -->
 <main>
   <section class="row">
     <h2>Trending Movies</h2>
@@ -36,15 +39,21 @@
   </section>
 </main>
 
+<!-- MODAL -->
 <div class="modal" id="modal">
   <div class="modal-content">
-
     <span class="close" onclick="closeModal()">&times;</span>
 
+    <!-- PLAYER -->
     <div class="player-wrapper">
-      <iframe id="modal-video" allowfullscreen></iframe>
+      <iframe
+        id="modal-video"
+        allow="autoplay; fullscreen"
+        allowfullscreen>
+      </iframe>
     </div>
 
+    <!-- INFO -->
     <div class="info-wrapper">
       <img id="modal-image" alt="Poster">
       <div class="info-text">
@@ -52,22 +61,22 @@
         <div id="modal-rating"></div>
         <p id="modal-description"></p>
 
-      
+        <!-- HIDDEN SERVER (HD 2 DEFAULT) -->
         <select id="server" onchange="changeServer()" hidden>
           <option value="embed" selected>HD 2</option>
           <option value="player">HD 1</option>
         </select>
       </div>
     </div>
-
   </div>
 </div>
 
+<!-- FOOTER -->
 <footer class="site-footer">
   <p>© <span id="year"></span> Drama Box. All rights reserved.</p>
   <p class="disclaimer">
     This site does not store any files on our server.
-    We only link to the media which is hosted on 3rd party services.
+    We only link to media hosted on 3rd party services.
   </p>
 </footer>
 
@@ -77,3 +86,5 @@
 
 </body>
 </html>
+
+
