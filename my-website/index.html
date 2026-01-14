@@ -4,124 +4,85 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Drama Box</title>
 
-  <!-- Styles -->
   <link rel="stylesheet" href="css/home.css">
-  <link rel="preload" href="css/home.css" as="style">
-  <link rel="preload" href="js/home.js" as="script">
-
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
-
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-  <!-- Script -->
   <script defer src="js/home.js"></script>
 </head>
 
 <body>
 
-  <!-- ================= HEADER ================= -->
-  <header class="navbar">
-    <img src="https://i.ibb.co/W4TZSVj4/logo.png" alt="Website Logo" />
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <input
-        type="text"
-        class="search-bar"
-        placeholder="Search movies or shows..."
-        onfocus="openSearchModal()"
-      />
-    </nav>
-  </header>
+<!-- NAVBAR -->
+<header class="navbar">
+  <img src="https://i.ibb.co/W4TZSVj4/logo.png" alt="Drama Box">
+  <input class="search-bar" placeholder="Search movies or shows..." />
+</header>
 
-  <!-- ================= BANNER ================= -->
-  <section class="banner" id="banner">
-    <div class="banner-overlay">
-      <h1 id="banner-title"></h1>
-    </div>
+<!-- BANNER -->
+<section class="banner" id="banner">
+  <h1 id="banner-title"></h1>
+</section>
+
+<!-- CONTENT -->
+<main>
+  <section class="row">
+    <h2>Trending Movies</h2>
+    <div class="list" id="movies-list"></div>
   </section>
 
-  <!-- ================= CONTENT ================= -->
-  <main>
-    <section class="row">
-      <h2>Trending Movies</h2>
-      <div class="list" id="movies-list"></div>
-    </section>
+  <section class="row">
+    <h2>Trending TV Shows</h2>
+    <div class="list" id="tvshows-list"></div>
+  </section>
 
-    <section class="row">
-      <h2>Trending TV Shows</h2>
-      <div class="list" id="tvshows-list"></div>
-    </section>
+  <section class="row">
+    <h2>Trending Anime</h2>
+    <div class="list" id="anime-list"></div>
+  </section>
+</main>
 
-    <section class="row">
-      <h2>Trending Anime</h2>
-      <div class="list" id="anime-list"></div>
-    </section>
-  </main>
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content">
 
-  <!-- ================= MODAL ================= -->
-  <div class="modal" id="modal">
-    <div class="modal-content">
-      <button class="close" onclick="closeModal()">&times;</button>
+    <span class="close" onclick="closeModal()">×</span>
 
-      <div class="modal-body">
-        <img id="modal-image" src="" alt="Poster" />
-        <div class="modal-text">
-          <h2 id="modal-title"></h2>
-          <div class="stars" id="modal-rating"></div>
-          <p id="modal-description"></p>
-        </div>
+    <div class="modal-body">
+      <img id="modal-image" />
+
+      <div class="modal-text">
+        <h2 id="modal-title"></h2>
+        <div id="modal-rating"></div>
+        <p id="modal-description"></p>
+
+        <button onclick="openPlayer()">▶ Play</button>
       </div>
-
-      <!-- SERVER SELECTOR -->
-      <div class="server-selector">
-        <label for="server">Server:</label>
-        <select id="server" onchange="changeServer()">
-          <option value="player">HD 1</option>
-          <option value="embed">HD 2</option>
-        </select>
-      </div>
-
-      <!-- ✅ REQUIRED PLAYER IFRAME -->
-      <iframe
-        id="modal-video"
-        src=""
-        frameborder="0"
-        allowfullscreen
-        style="width:100%; height:420px; margin-top:10px;"
-      ></iframe>
     </div>
+
+    <!-- PLAYER (HIDDEN UNTIL PLAY) -->
+    <div id="player-container">
+      <iframe id="modal-video" allowfullscreen></iframe>
+
+      <select id="server" onchange="changeServer()">
+        <option value="player">HD 1 (Recommended)</option>
+        <option value="embed">HD 2 (Auto Play)</option>
+      </select>
+    </div>
+
   </div>
+</div>
 
-  <!-- ================= SEARCH MODAL ================= -->
-  <div class="search-modal" id="search-modal">
-    <input
-      type="text"
-      id="search-input"
-      placeholder="Search movies, TV shows..."
-      oninput="searchTMDB()"
-    />
-    <div class="results" id="search-results"></div>
-    <button class="close" onclick="closeSearchModal()">&times;</button>
-  </div>
+<!-- FOOTER -->
+<footer class="site-footer">
+  <p>© <span id="year"></span> Drama Box. All rights reserved.</p>
+  <p class="disclaimer">
+    This site does not store any files on our server.
+    We only link to the media which is hosted on 3rd party services.
+  </p>
+</footer>
 
-  <!-- ================= FOOTER ================= -->
-  <footer class="site-footer">
-    <p>© <span id="year"></span> Drama Box. All rights reserved.</p>
-    <p class="disclaimer">
-      This site does not store any files on our server.
-      We only link to the media which is hosted on 3rd party services.
-    </p>
-  </footer>
-
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
 
 </body>
 </html>
-
-
-
 
