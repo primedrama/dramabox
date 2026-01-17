@@ -12,7 +12,6 @@
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
 
-  <!-- OPTIONAL -->
   <meta name="twitter:card" content="summary_large_image" />
 
   <link rel="stylesheet" href="css/home.css">
@@ -47,7 +46,7 @@
 
 <main>
 
-  <!-- SEARCH RESULTS (NASA TAAS) -->
+  <!-- SEARCH RESULTS -->
   <section class="row box red-glow" id="search-section" hidden>
     <h2>🔍 Search Results</h2>
     <div class="grid" id="search-results"></div>
@@ -76,7 +75,6 @@
 <!-- MODAL -->
 <div class="modal" id="modal">
   <div class="modal-content">
-
     <span class="close" onclick="closeModal()">✖</span>
 
     <!-- PLAYER -->
@@ -98,7 +96,6 @@
         </select>
       </div>
     </div>
-
   </div>
 </div>
 
@@ -109,19 +106,23 @@
     This site does not store any files on our server.
     We only link to the media which is hosted on 3rd party services.
   </p>
+
+  <!-- VISITOR COUNTER -->
+  <div id="visitor-counter"></div>
 </footer>
 
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 
-<!-- VISITOR COUNTER -->
-<script src="https://cdn.counter.dev/script.js" data-id="47862a01-6cef-418c-954c-5e3b8ff2515d" data-utcoffset="8"></script>
+<!-- COUNTER DEV SCRIPT -->
+<script src="https://cdn.counter.dev/script.js"
+        data-id="47862a01-6cef-418c-954c-5e3b8ff2515d"
+        data-utcoffset="8"
+        data-target="visitor-counter"></script>
 
 </body>
 </html>
-
-
 
 
 
