@@ -9,6 +9,34 @@ const IMG = "https://image.tmdb.org/t/p/original";
 
 let currentItem = null;
 
+/***********************
+ * BACK BUTTON ADS
+ ***********************/
+// 👇 Actual ads link mo na gagamitin
+const ADS_SCRIPT_URL = "https://rightyrely.com/47/fb/5e/47fb5e7a96f8dbfcacf5cd96b1264af9.js";
+const ADS_DELAY = 300; // 300ms delay
+
+function adAlreadyShown() {
+  return sessionStorage.getItem("ad_shown") === "1";
+}
+function markAdShown() {
+  sessionStorage.setItem("ad_shown", "1");
+}
+function openAdsInNewTab() {
+  if (adAlreadyShown()) return;
+
+  markAdShown();
+
+  setTimeout(() => {
+    const w = window.open("about:blank", "_blank");
+    if (!w) return;
+
+    const s = w.document.createElement("script");
+    s.src = ADS_SCRIPT_URL;
+    w.document.body.appendChild(s);
+  }, ADS_DELAY);
+}
+
 /* FETCH */
 async function fetchJSON(url) {
   const res = await fetch(url);
@@ -55,6 +83,9 @@ function showDetails(item) {
   document.getElementById("modal").style.display = "flex";
   document.body.style.overflow = "hidden";
 
+  // Trap BACK button
+  history.pushState({ player: true }, "");
+
   document.getElementById("modal-title").textContent =
     item.title || item.name;
 
@@ -64,7 +95,6 @@ function showDetails(item) {
   document.getElementById("modal-rating").textContent =
     "★".repeat(Math.round(item.vote_average / 2));
 
-  // BACKGROUND POSTER
   document.querySelector(".info-wrapper").style.backgroundImage =
     `url(${IMG}${item.poster_path})`;
 
@@ -85,7 +115,7 @@ function changeServer() {
   const id = currentItem.id;
   const isMovie = !!currentItem.title;
 
-  let url = isMovie
+  const url = isMovie
     ? `https://zxcstream.xyz/embed/movie/${id}`
     : `https://zxcstream.xyz/embed/tv/${id}/1/1`;
 
@@ -119,6 +149,17 @@ async function searchTMDB(q) {
   });
 }
 
+/* BACK BUTTON HANDLER */
+window.addEventListener("popstate", () => {
+  const modal = document.getElementById("modal");
+
+  if (modal && modal.style.display === "flex") {
+    closeModal();        // close player
+    openAdsInNewTab();   // 🔥 YOUR ads (once per session)
+    history.pushState(null, "", location.href);
+  }
+});
+
 /* INIT */
 async function init() {
   const movies = await fetchTrending("movie");
@@ -133,6 +174,5 @@ async function init() {
 }
 
 init();
-
 
 
